@@ -1,5 +1,8 @@
 const express = require('express');
 const app = express();
+const { connectDB } = require('./config/db');
+
+
 
 //middlewares
 app.use(express.json());
@@ -10,4 +13,5 @@ const PORT = 1337;
 
 app.listen(PORT, ()=> {
     console.log('Server is running');
+    connectDB();
 })
