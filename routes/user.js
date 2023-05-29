@@ -2,7 +2,7 @@ const express = require('express');
 const  router = express.Router();
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
-
+ 
 const {
     validateName,
     validateEmail,
@@ -29,7 +29,7 @@ router.post("/signup", async (req, res) => {
             return res.status(400).json({err: "Password validate fails"});
         }
 
-        const hashedPassword = await bcrypt.hash(password);
+        const hashedPassword = await bcrypt.hash(password, (saltOrRounds = 10));
 
         const user = {
             email,
@@ -41,11 +41,12 @@ router.post("/signup", async (req, res) => {
         //Added to the database
         const createdUser = User.create(user);
         return res.status(201).json({
-            message: `Welcome ${createdUser.name}`
+            message: `Welcome ${createdUser.email}`
         })
 
 
     } catch(e){
+        console.log(">>>>>>>>",e);
         return res.status(500).send(e);
     }
 })
