@@ -41,7 +41,7 @@ router.post("/signup", async (req, res) => {
         //Added to the database
         const createdUser = User.create(user);
         return res.status(201).json({
-            message: `Welcome ${createdUser.email}`
+            message: `Welcome ${createdUser.name}`
         })
 
 

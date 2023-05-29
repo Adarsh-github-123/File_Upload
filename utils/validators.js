@@ -18,16 +18,16 @@ const validateName = (name) => {
     const passwordRegex = new RegExp(
       "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
     );
-    return passwordRegex.test(password); //* checks whether the entered password matches the specified condition and returns true or false accordingly
+    return passwordRegex.test(password); // checks whether the entered password matches the specified condition and returns true or false accordingly
   };
   
-  /*
-  //* For manually testing the validation functions
-  console.log(
-    validateName("shamim01"),
-    validateEmail("sm47@gmail.com"),
-    validatePassword("HelloWorld@6")
-  );
-  */
+  
+  //For manually testing the validation functions
+  // console.log(
+  //   validateName("shamim01"),
+  //   validateEmail("sm47@gmail.com"),
+  //   validatePassword("HelloWorld@6")
+  // );
+  
   
   module.exports = { validateName, validateEmail, validatePassword };
