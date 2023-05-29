@@ -3,7 +3,6 @@ const app = express();
 const { connectDB } = require('./config/db');
 
 
-
 //middlewares
 app.use(express.json());
 app.use(express.static('public'));
