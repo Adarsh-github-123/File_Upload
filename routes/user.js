@@ -96,6 +96,15 @@ router.post("/signin", async (req, res) => {
         console.log(">>>>>>>>",e);
         return res.status(500).send(e);
     }
+});
+
+router.get('/signout', (req, res) => {
+    try{
+        res.clearCookie('t');
+        return res.status(200).json({message: "Cookie is Deleted"});
+    } catch(e) {
+        return res.status(500).send(e);
+    }
 })
 
 module.exports = router;
