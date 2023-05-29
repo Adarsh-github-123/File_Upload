@@ -1,4 +1,4 @@
-const {Datatypes} = require('sequelize');
+const {DataTypes} = require('sequelize');
 const {createDB} = require('../config/db');
 
 const User = createDB.define("users", {
@@ -6,14 +6,14 @@ const User = createDB.define("users", {
         primaryKey: true,
         allowNull: false,
         autoIncrement: true,
-        type: Datatypes.INTEGER
+        type: DataTypes.INTEGER
     }, 
-    name: Datatypes.STRING,
-    email: Datatypes.STRING,
-    password: Datatypes.STRING,
+    name: DataTypes.STRING,
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
 
     isSeller: {
-        type: Datatypes.BOOLEAN,
+        type: DataTypes.BOOLEAN,
         defaultValue: false
     }
 });

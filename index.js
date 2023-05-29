@@ -8,7 +8,7 @@ const userRoutes = require('./routes/user');
 app.use(express.json());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extends : false }));
-app.use('api/v1/', userRoutes);
+app.use('api/v1/user', userRoutes);
 
 const PORT = 1337;
 
