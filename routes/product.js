@@ -4,7 +4,14 @@ const upload = require('../utils/fileUpload');
 const Product = require('../models/productModel');
 const {isAuthenticated, isSeller, isBuyer} = require('../middlewares/auth');
 const { stripeKey } = require('../config/credentials');
+const Order = require("../models/orderModel");
 const stripe = require('stripe')(stripeKey);
+const { WebhookClient } = require("discord.js");
+
+const webhook = new WebhookClient({
+    url: "" //Enter the url of the discord channel
+})
+
 
 router.post("/create", isAuthenticated, isSeller, (req, res) => {
     upload(req, res, async (err) => {
@@ -52,17 +59,20 @@ router.get('/get/all', isAuthenticated, async (req, res) => {
     }
 });
 
-router.post('/buy/:productID', isAuthenticated, isBuyer, async (req, res) => {
+router.post('/buy/:productId', isAuthenticated, isBuyer, async (req, res) => {
     try{
-        const product = await product.findOnde({
-            where: { id: req.params.productID}
-        });
+        const productFind = await product.findOnde({
+            where: { id: req.params.productId}
+        })?.dataValues;
+
+        const product = productFind.dataValues
+
         if(!product){
             return res.status(404).json({ er: "No product found"})
         }
 
         const orderDetails = {
-            productId,
+            productId: req.params.productId,
             buyerId: req.user.id
         }
 
@@ -86,6 +96,12 @@ router.post('/buy/:productID', isAuthenticated, isBuyer, async (req, res) => {
 
         if(paymentIntent) {
             const createOrder = await Order.create(orderDetails);
+
+            webhook.send({
+                content: `This is my message just to check whether it is connected with discord or not for order id: ${createOrder.id}`,
+                username: "order-keeper",
+                avatarURL: "https://i.imgur.com/AfFp7pu.png",
+            })
             return res.status(200).json({
                 createOrder
             });
