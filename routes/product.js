@@ -74,7 +74,27 @@ router.post('/buy/:productID', isAuthenticated, isBuyer, async (req, res) => {
                 exp_year: 2023,
                 cvc: "314"
             }
-        })
+        });
+
+        let paymentIntent = await stripe.paymentIntent.create({
+            amount: product.price,
+            currency: "inr",
+            payment_method_types: ["card"],
+            payment_method: paymentMethod.id,
+            confirm: true
+        });
+
+        if(paymentIntent) {
+            const createOrder = await Order.create(orderDetails);
+            return res.status(200).json({
+                createOrder
+            });
+        } else {
+            return res.status(400).json({
+                err: "Payment failed"
+            })
+        }
+
     } catch(e) {
         res.status(500).json({err: e})
     }
