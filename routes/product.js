@@ -4,6 +4,7 @@ const upload = require('../utils/fileUpload');
 const Product = require('../models/productModel');
 const {isAuthenticated, isSeller, isBuyer} = require('../middlewares/auth');
 const { stripeKey } = require('../config/credentials');
+const stripe = require('stripe')(stripeKey);
 
 router.post("/create", isAuthenticated, isSeller, (req, res) => {
     upload(req, res, async (err) => {
@@ -64,6 +65,16 @@ router.post('/buy/:productID', isAuthenticated, isBuyer, async (req, res) => {
             productId,
             buyerId: req.user.id
         }
+
+        let paymentMethod = await stripe.paymentMethod.create({
+            type: "card",
+            card: {
+                number: "1234567812345678",
+                exp_month: 9,
+                exp_year: 2023,
+                cvc: "314"
+            }
+        })
     } catch(e) {
         res.status(500).json({err: e})
     }
