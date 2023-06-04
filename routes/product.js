@@ -8,8 +8,10 @@ const Order = require("../models/orderModel");
 const stripe = require('stripe')(stripeKey);
 const { WebhookClient } = require("discord.js");
 
+require('dotenv').config();
+
 const webhook = new WebhookClient({
-    url: "" //Enter the url of the discord channel
+    url : process.env.URL
 })
 
 
